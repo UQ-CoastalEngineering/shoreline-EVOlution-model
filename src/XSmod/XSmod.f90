@@ -702,10 +702,12 @@ REAL(KIND=DBL),DIMENSION(profnew%Nvar) :: xvar0
 LOGICAL :: success
 
 xvar0 = profnew%xvar
-dx_min = -width*20
-dx_max = width*20
+dx_min = -width*15
+dx_max = width*15
 
 CALL fzero(vol_error,dx_min,dx_max,dx_min,0._DBL,precision,stat)
+
+dx=dx_min
 
 ! Build new profile
 profnew%xvar = xvar0 + dx
