@@ -1,0 +1,68 @@
+! FVWBM COMPILER DIRECTIVES HEADER FILE
+!
+! Copyright WBM 2016
+! Authors: Ian Teakle
+
+! Define Build Platform
+! 1=Windows ifort (def), 2=Linux ifort
+!DEC$ IF DEFINED(PLATFORM)
+!DEC$ ELSE
+  !DEC$ DEFINE PLATFORM=1
+!DEC$ END IF
+! Overwrite using predefined preprocessory symbols (if available)
+!DEC$ IF DEFINED (linux)
+  !DEC$ DEFINE PLATFORM=2
+!DEC$ END IF
+
+! Define Build Architecture
+! 1=x86-32 (def), 2=x86-64
+!DEC$ IF DEFINED(ARCH)
+!DEC$ ELSE
+  !DEC$ DEFINE ARCH=1
+!DEC$ END IF
+! Overwrite using predefined preprocessor symbols (if available)
+!DEC$ IF (PLATFORM==1) ! Windows
+  !DEC$ IF DEFINED(_M_IX86)
+    !DEC$ DEFINE ARCH=1
+  !DEC$ ELSEIF DEFINED(_M_X64)
+    !DEC$ DEFINE ARCH=2
+  !DEC$ END IF
+!DEC$ ELSEIF (PLATFORM==2) ! Linux
+  !DEC$ IF DEFINED(__i386)
+    !DEC$ DEFINE ARCH=1
+  !DEC$ ELSEIF DEFINED(__x86_64)
+    !DEC$ DEFINE ARCH=2
+  !DEC$ END IF
+!DEC$ END IF
+  
+! Define Build Precision
+! 1=Single Precison (def), 2=Double Precision, 3+=Undefined
+!DEC$ IF DEFINED(_PRECISION)
+!DEC$ ELSE
+  !DEC$ DEFINE _PRECISION=1
+!DEC$ END IF
+!DEC$ IF (_PRECISION==1) ! Single
+  !DEC$ REAL:4
+  !DEC$ INTEGER:4
+!DEC$ ELSEIF (_PRECISION==2) ! Double
+  !DEC$ REAL:8
+  !DEC$ INTEGER:4
+!DEC$ END IF
+
+! Define Message Passing 
+!!DEC$ DEFINE MPI
+
+! Define Licensing Configuration
+! 0=No dongle protection, 1=WIBU dongle
+!DEC$ DEFINE LICENSE=0
+!DEC$ IF (PLATFORM==2) ! No license support for linux
+  !DEC$ DEFINE LICENSE=0
+!DEC$ END IF
+!DEC$ IF (ARCH==1) ! x86-32
+  !DEC$ DEFINE FORTRAN_COMPILER=11
+!DEC$ ELSEIF (ARCH==2) ! x86-64
+  !DEC$ DEFINE FORTRAN_COMPILER=21
+!DEC$ END IF
+
+! Define Include Netcdf
+!DEC$ DEFINE INCL_NETCDF=1
