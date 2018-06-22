@@ -1,0 +1,6 @@
+#!/bin/bash
+source /opt/intel/Compiler/11.1/069/bin/ifortvars.sh intel64
+source /opt/intel/Compiler/11.1/069/bin/iccvars.sh intel64
+export LD_LIBRARY_PATH='/usr/local/hdf5-1.8.8/lib:/usr/local/lib:/opt/intel/Compiler/11.1/069/lib/intel64'
+
+./../../../fortran_code/bin/evoexew example.evc

@@ -1,0 +1,55 @@
+! EVOmod control file
+! example
+
+modeltype == Huxley
+doxshoreupdate == .true.
+dolongshoretransport == .true.
+
+grid file == example_grid.csv
+wave transformation file == example_lookup.nc
+xsect parameter file == example_xpar.csv
+initial condition file == example_icond.csv
+seawall definition file == example_seawall.csv
+
+time format == ISODATE
+start time == 01/01/2000 00:00
+end time == 01/01/2060 00:00
+timestep == 3600.0 ! seconds
+
+cerc coefficient == 0.160
+
+Breaker index == 0.78
+
+bc == wave, example_wave.csv
+  loop bc == .true.
+end bc
+
+bc == water level, example_wl.csv
+  loop bc == .true.
+end bc
+
+output dir == ./../output
+
+output == breaking waves
+  output interval == 1.0 ! days
+end output
+
+output == xshore
+  output interval == 1.0 ! days
+end output
+
+output == volume
+  output interval == 1.0 ! days
+end output
+
+output == xsect
+  output interval == 1.0 ! days
+  output list == example_xsect_ids.csv
+end output
+
+output == equilibrium xsect
+  output interval == 1.0 ! days
+  output list == example_xsect_ids_eq.csv
+end output
+
+!write restart dt == 18250
